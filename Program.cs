@@ -1,15 +1,23 @@
+using MoviesAPI_EFCore7.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var connectionString = builder.Configuration.GetConnectionString("NeonPostgreSQLConnection");
+builder.Services.AddDbContext<MoviesDbContext>(options => options.UseNpgsql(connectionString ?? throw new InvalidOperationException("Connection string 'NeonPostgreSQLConnection' not found.")));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    Console.WriteLine($"Connection string: {connectionString}");
     app.UseSwagger();
     app.UseSwaggerUI();
 }
