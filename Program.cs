@@ -9,8 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("NeonPostgreSQLConnection");
-builder.Services.AddDbContext<MoviesDbContext>(options => options.UseNpgsql(connectionString ?? throw new InvalidOperationException("Connection string 'NeonPostgreSQLConnection' not found.")));
+var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
+                        ?? builder.Configuration.GetConnectionString("NeonPostgreSQLConnection");
+builder.Services.AddDbContext<MoviesDbContext>(options => options.UseNpgsql(connectionString
+			?? throw new InvalidOperationException("Connection string not found.")));
 
 var app = builder.Build();
 
