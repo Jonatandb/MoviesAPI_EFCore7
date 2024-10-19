@@ -18,6 +18,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     Console.WriteLine($"Connection string: {connectionString}");
+
+
+    app.Use(async (context, next) => {
+        Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+        await next.Invoke();
+    });
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
