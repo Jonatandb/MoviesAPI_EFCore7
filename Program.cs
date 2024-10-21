@@ -10,17 +10,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
-                        ?? builder.Configuration.GetConnectionString("NeonPostgreSQLConnection");
-builder.Services.AddDbContext<MoviesDbContext>(options => options.UseNpgsql(connectionString
-			?? throw new InvalidOperationException("Connection string not found.")));
+                        ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (String.IsNullOrEmpty(connectionString)) {
+  throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+}
+
+builder.Services.AddDbContext<MoviesDbContext>(options => options.UseNpgsql(connectionString));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+// Console.WriteLine("Environment: " + Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
 if (app.Environment.IsDevelopment())
 {
-    Console.WriteLine($"Connection string: {connectionString}");
-
+    // Console.WriteLine($"Connection string: {connectionString}");
 
     app.Use(async (context, next) => {
         Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
