@@ -15,7 +15,8 @@ public class MoviesDbContext(DbContextOptions<MoviesDbContext> options) : DbCont
         //                  el maxLength dentro de "override void ConfigureConventions".
 
         // Con esta línea le decimos a EF que busque y aplique las configuraciones especificadas
-        //   en todas las clases, de este mismo ensamblado, que implementen la interfaz IEntityTypeConfiguration<>
+        //   en todas las clases, de este mismo ensamblado, que implementen la interfaz IEntityTypeConfiguration<>,
+        //   ejemplo: Entities/Configurations/ActionConfig.cs
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
