@@ -1,3 +1,5 @@
+# .http file now supported by default. More info: https://learn.microsoft.com/en-us/aspnet/core/test/http-files?view=aspnetcore-8.0
+
 @MoviesAPI_EFCore7_HostAddress = http://localhost:5293
 
 GET {{MoviesAPI_EFCore7_HostAddress}}/weatherforecast/
