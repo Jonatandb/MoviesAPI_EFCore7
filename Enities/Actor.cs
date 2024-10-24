@@ -1,4 +1,4 @@
-﻿namespace MoviesAPI_EFCore7.Enities
+﻿namespace MoviesAPI_EFCore7.Entities
 {
     public class Actor
     {
