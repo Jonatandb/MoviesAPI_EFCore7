@@ -2,6 +2,7 @@ namespace MoviesAPI_EFCore7.Data;
 
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI_EFCore7.Entities;
+using System.Reflection;
 
 public class MoviesDbContext(DbContextOptions<MoviesDbContext> options) : DbContext(options)
 {
@@ -9,21 +10,18 @@ public class MoviesDbContext(DbContextOptions<MoviesDbContext> options) : DbCont
         base.OnModelCreating(modelBuilder);
 
         // modelBuilder.Entity<Genero>().HasKey(g => g.Id); // No es necesario ya que por convención el campo de nombre Id de una entidad es usado por EF como PK.
-        //modelBuilder.Entity<Genero>().Property(g => g.Nombre).HasMaxLength(150);
 
-        //modelBuilder.Entity<Actor>().Property(a => a.Nombre).HasMaxLength(150);
-        modelBuilder.Entity<Actor>().Property(a => a.FechaNacimiento).HasColumnType("date");
-        modelBuilder.Entity<Actor>().Property(a => a.Fortuna).HasPrecision(18,2);
+        // modelBuilder.Entity<Genero>().Property(g => g.Nombre).HasMaxLength(150); // Ya no es necesario luego de establecer
+        //                  el maxLength dentro de "override void ConfigureConventions".
 
-        //modelBuilder.Entity<Pelicula>().Property(p => p.Titulo).HasMaxLength(150);
-        modelBuilder.Entity<Pelicula>().Property(p => p.FechaEstreno).HasColumnType("date");
-
-        modelBuilder.Entity<Comentario>().Property(a => a.Contenido).HasMaxLength(500);
+        // Con esta línea le decimos a EF que busque y aplique las configuraciones especificadas
+        //   en todas las clases, de este mismo ensamblado, que implementen la interfaz IEntityTypeConfiguration<>
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder.Properties<string>().HaveMaxLength(150); // Por defecto, los campos de tipo string tendrán siempre maxlength de 150.
+        configurationBuilder.Properties<string>().HaveMaxLength(150); // Por defecto, ahora los campos de tipo string de todas las entidades tendrán siempre maxlength de 150.
     }
 
     public DbSet<Genero> Generos => Set<Genero>();
