@@ -14,6 +14,8 @@
                 //** HashSet es más rápido para trabajar con colecciones, pero no garantiza que se respete el orden,
                 //          por lo que si se necesita ordenar los comentarios conviene usar una lista en su lugar.
 
+        public HashSet<Genero> Generos { get; set; } = new HashSet<Genero>();
+
         public List<PeliculaActor> Actores { get; set; } = new List<PeliculaActor>();
     }
 }
