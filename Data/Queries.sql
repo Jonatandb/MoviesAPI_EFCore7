@@ -9,8 +9,9 @@ select * from public."Peliculas";
 
 select * from public."Comentarios";
 
-select * from public."PeliculasActores"
+select * from public."PeliculasActores";
 
+select * from public."GeneroPelicula";
 
 
 

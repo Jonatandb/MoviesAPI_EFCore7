@@ -5,6 +5,10 @@ BEGIN;
 
 ALTER TABLE IF EXISTS public."Comentarios" DROP CONSTRAINT IF EXISTS "FK_Comentarios_Peliculas_PeliculaId";
 
+ALTER TABLE IF EXISTS public."GeneroPelicula" DROP CONSTRAINT IF EXISTS "FK_GeneroPelicula_Generos_GenerosId";
+
+ALTER TABLE IF EXISTS public."GeneroPelicula" DROP CONSTRAINT IF EXISTS "FK_GeneroPelicula_Peliculas_PeliculasId";
+
 ALTER TABLE IF EXISTS public."PeliculasActores" DROP CONSTRAINT IF EXISTS "FK_PeliculasActores_Actores_ActorId";
 
 ALTER TABLE IF EXISTS public."PeliculasActores" DROP CONSTRAINT IF EXISTS "FK_PeliculasActores_Peliculas_PeliculaId";
@@ -31,6 +35,15 @@ CREATE TABLE IF NOT EXISTS public."Comentarios"
     "Recomendar" boolean NOT NULL,
     "PeliculaId" integer NOT NULL DEFAULT 0,
     CONSTRAINT "PK_Comentarios" PRIMARY KEY ("Id")
+);
+
+DROP TABLE IF EXISTS public."GeneroPelicula";
+
+CREATE TABLE IF NOT EXISTS public."GeneroPelicula"
+(
+    "GenerosId" integer NOT NULL,
+    "PeliculasId" integer NOT NULL,
+    CONSTRAINT "PK_GeneroPelicula" PRIMARY KEY ("GenerosId", "PeliculasId")
 );
 
 DROP TABLE IF EXISTS public."Generos";
@@ -80,6 +93,22 @@ ALTER TABLE IF EXISTS public."Comentarios"
     ON DELETE CASCADE;
 CREATE INDEX IF NOT EXISTS "IX_Comentarios_PeliculaId"
     ON public."Comentarios"("PeliculaId");
+
+
+ALTER TABLE IF EXISTS public."GeneroPelicula"
+    ADD CONSTRAINT "FK_GeneroPelicula_Generos_GenerosId" FOREIGN KEY ("GenerosId")
+    REFERENCES public."Generos" ("Id") MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+
+ALTER TABLE IF EXISTS public."GeneroPelicula"
+    ADD CONSTRAINT "FK_GeneroPelicula_Peliculas_PeliculasId" FOREIGN KEY ("PeliculasId")
+    REFERENCES public."Peliculas" ("Id") MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+CREATE INDEX IF NOT EXISTS "IX_GeneroPelicula_PeliculasId"
+    ON public."GeneroPelicula"("PeliculasId");
 
 
 ALTER TABLE IF EXISTS public."PeliculasActores"
