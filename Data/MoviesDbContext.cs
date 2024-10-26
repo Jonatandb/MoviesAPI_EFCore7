@@ -22,11 +22,13 @@ public class MoviesDbContext(DbContextOptions<MoviesDbContext> options) : DbCont
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder.Properties<string>().HaveMaxLength(150); // Por defecto, ahora los campos de tipo string de todas las entidades tendrán siempre maxlength de 150.
+        configurationBuilder.Properties<string>().HaveMaxLength(150); // Por defecto, ahora los campos de tipo string de todas las entidades
+                                                                      // tendrán siempre maxlength de 150.
     }
 
     public DbSet<Genero> Generos => Set<Genero>();
     public DbSet<Actor> Actores => Set<Actor>();
     public DbSet<Pelicula> Peliculas => Set<Pelicula>();
     public DbSet<Comentario> Comentarios => Set<Comentario>();
+    public DbSet<PeliculaActor> PeliculasActores => Set<PeliculaActor>();
 }
