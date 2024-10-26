@@ -5,7 +5,15 @@ select * from public."Generos";
 
 select * from public."Actores";
 
+select * from public."Peliculas";
+
 select * from public."Comentarios";
+
+select * from public."PeliculasActores"
+
+
+
+
 
 
 --DELETE FROM public."__EFMigrationsHistory"
