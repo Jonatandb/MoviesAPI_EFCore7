@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
 
 var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
                         ?? builder.Configuration.GetConnectionString("DefaultConnection");
@@ -35,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.MapControllers();
 app.UseHttpsRedirection();
 
 var summaries = new[]

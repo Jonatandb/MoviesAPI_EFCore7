@@ -6,3 +6,11 @@ GET {{MoviesAPI_EFCore7_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+
+POST {{MoviesAPI_EFCore7_HostAddress}}/api/generos
+Accept: application/json
+Content-Type: application/json
+{
+  "nombre": "Comedia"
+}
