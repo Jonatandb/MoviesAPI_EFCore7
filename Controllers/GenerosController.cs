@@ -29,5 +29,15 @@ namespace MoviesAPI_EFCore7.Controllers
             return Ok();
         }
 
+        [HttpPost("varios")] // Este nombre "varios" es el que se va a usar en la URL: /api/generos/varios
+        // [Route("varios")] // Necesario si en lugar de "HttpPost("varios")" se usa solo "HttpPost"
+        public async Task<ActionResult> Post(GeneroCreacionDTO[] generosCreacion)
+        {
+            var generos = _mapper.Map<Genero[]>(generosCreacion);
+
+            _dbContext.AddRange(generos);
+            await _dbContext.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

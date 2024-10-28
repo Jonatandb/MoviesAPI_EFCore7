@@ -3,6 +3,9 @@ ORDER BY "MigrationId" ASC;
 
 select * from public."Generos";
 
+-- delete from public."Generos" 
+-- where "Id" = 2; -- Drama, Musical
+
 select * from public."Actores";
 
 select * from public."Peliculas";
@@ -13,9 +16,3 @@ select * from public."PeliculasActores";
 
 select * from public."GeneroPelicula";
 
-
-
-
-
---DELETE FROM public."__EFMigrationsHistory"
---WHERE "MigrationId" = '20241024031832_maxlengthupdated';
