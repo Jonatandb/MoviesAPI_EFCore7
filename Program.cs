@@ -19,6 +19,8 @@ if (String.IsNullOrEmpty(connectionString)) {
 
 builder.Services.AddDbContext<MoviesDbContext>(options => options.UseNpgsql(connectionString));
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,6 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.MapControllers();
 app.UseHttpsRedirection();
 
