@@ -16,6 +16,6 @@
 
         public HashSet<Genero> Generos { get; set; } = new HashSet<Genero>();
 
-        public List<PeliculaActor> Actores { get; set; } = new List<PeliculaActor>();
+        public List<PeliculaActor> PeliculasActores { get; set; } = new List<PeliculaActor>();
     }
 }
