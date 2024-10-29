@@ -9,6 +9,7 @@ namespace MoviesAPI_EFCore7.Utilities
         public AutoMapperProfiles()
         {
             CreateMap<GeneroCreacionDTO, Genero>();
+            CreateMap<ActorCreacionDTO, Actor>();
         }
     }
 }
