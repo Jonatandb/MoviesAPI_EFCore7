@@ -1,18 +1,34 @@
-SELECT * FROM public."__EFMigrationsHistory"
+SELECT * FROM "__EFMigrationsHistory"
 ORDER BY "MigrationId" ASC;
 
-select * from public."Generos";
+select * from "Generos";
 
--- delete from public."Generos" 
--- where "Id" = 2; -- Drama, Musical
+/*
+delete from "Generos" 
+where "Id" = 14
+*/
 
-select * from public."Actores";
+select * from "Actores";
 
-select * from public."Peliculas";
+select * from "Peliculas";
 
-select * from public."Comentarios";
+select * from "Comentarios";
 
-select * from public."PeliculasActores";
+select * from "PeliculasActores";
 
-select * from public."GeneroPelicula";
+select * from "GeneroPelicula";
 
+select 
+	"p"."Titulo" as "Película",
+	"p"."EnCines",
+	"p"."FechaEstreno",
+	STRING_AGG( "g"."Nombre", ', ') as "Generos",
+	CONCAT("a"."Nombre", ' as ', "pa"."Personaje") as "Actor",
+	STRING_AGG("c"."Contenido", ' / ') as "Comentarios"
+from "Peliculas" as "p" 
+	left join "GeneroPelicula" as "gp" on "p"."Id" = "gp"."PeliculasId"
+	left join "Generos" as "g" on "g"."Id" = "gp"."GenerosId"
+	left join "PeliculasActores" as "pa" on "pa"."PeliculaId" = "p"."Id"
+	left join "Actores" as "a" on "a"."Id" = "pa"."ActorId"
+	left join "Comentarios" as "c" on "c"."PeliculaId" = "p"."Id"
+group by 	"p"."Titulo", 	"p"."EnCines",	"p"."FechaEstreno", "a"."Nombre", "pa"."Personaje"
