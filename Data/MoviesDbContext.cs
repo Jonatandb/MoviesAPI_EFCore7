@@ -2,6 +2,7 @@ namespace MoviesAPI_EFCore7.Data;
 
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI_EFCore7.Entities;
+using MoviesAPI_EFCore7.Entities.Seeding;
 using System.Reflection;
 
 public class MoviesDbContext(DbContextOptions<MoviesDbContext> options) : DbContext(options)
@@ -18,6 +19,7 @@ public class MoviesDbContext(DbContextOptions<MoviesDbContext> options) : DbCont
         //   en todas las clases, de este mismo ensamblado, que implementen la interfaz IEntityTypeConfiguration<>,
         //   ejemplo: Entities/Configurations/ActionConfig.cs
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        SeedingInicial.Seed(modelBuilder);
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

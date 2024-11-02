@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesAPI_EFCore7.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoviesAPI_EFCore7.Migrations
 {
     [DbContext(typeof(MoviesDbContext))]
-    partial class MoviesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241102203415_Datos_Genero")]
+    partial class Datos_Genero
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,23 +38,6 @@ namespace MoviesAPI_EFCore7.Migrations
                     b.HasIndex("PeliculasId");
 
                     b.ToTable("GeneroPelicula");
-
-                    b.HasData(
-                        new
-                        {
-                            GenerosId = 2,
-                            PeliculasId = 2
-                        },
-                        new
-                        {
-                            GenerosId = 2,
-                            PeliculasId = 3
-                        },
-                        new
-                        {
-                            GenerosId = 5,
-                            PeliculasId = 4
-                        });
                 });
 
             modelBuilder.Entity("MoviesAPI_EFCore7.Entities.Actor", b =>
@@ -77,22 +63,6 @@ namespace MoviesAPI_EFCore7.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Actores");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            FechaNacimiento = new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Fortuna = 15000m,
-                            Nombre = "Samuel Jackson"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            FechaNacimiento = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Fortuna = 18000m,
-                            Nombre = "Robert Downey Jr"
-                        });
                 });
 
             modelBuilder.Entity("MoviesAPI_EFCore7.Entities.Comentario", b =>
@@ -118,29 +88,6 @@ namespace MoviesAPI_EFCore7.Migrations
                     b.HasIndex("PeliculaId");
 
                     b.ToTable("Comentarios");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            Contenido = "Muy buena",
-                            PeliculaId = 2,
-                            Recomendar = true
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Contenido = "Dura dura",
-                            PeliculaId = 2,
-                            Recomendar = true
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Contenido = "Muy aburrida...",
-                            PeliculaId = 3,
-                            Recomendar = false
-                        });
                 });
 
             modelBuilder.Entity("MoviesAPI_EFCore7.Entities.Genero", b =>
@@ -195,29 +142,6 @@ namespace MoviesAPI_EFCore7.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Peliculas");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            EnCines = false,
-                            FechaEstreno = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titulo = "Avengers Endgame"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            EnCines = false,
-                            FechaEstreno = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titulo = "Spiderman: No Way Home"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            EnCines = false,
-                            FechaEstreno = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titulo = "Spiderman: Across the Spider-Verse 2"
-                        });
                 });
 
             modelBuilder.Entity("MoviesAPI_EFCore7.Entities.PeliculaActor", b =>
@@ -241,29 +165,6 @@ namespace MoviesAPI_EFCore7.Migrations
                     b.HasIndex("ActorId");
 
                     b.ToTable("PeliculasActores");
-
-                    b.HasData(
-                        new
-                        {
-                            PeliculaId = 3,
-                            ActorId = 2,
-                            Orden = 1,
-                            Personaje = "Nick Fury"
-                        },
-                        new
-                        {
-                            PeliculaId = 2,
-                            ActorId = 2,
-                            Orden = 2,
-                            Personaje = "Nick Fury"
-                        },
-                        new
-                        {
-                            PeliculaId = 2,
-                            ActorId = 3,
-                            Orden = 1,
-                            Personaje = "Tony Stark / Ironman"
-                        });
                 });
 
             modelBuilder.Entity("GeneroPelicula", b =>
