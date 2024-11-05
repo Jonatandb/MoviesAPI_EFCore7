@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoviesAPI_EFCore7.Data;
 using MoviesAPI_EFCore7.DTO_s;
 using MoviesAPI_EFCore7.Entities;
@@ -38,6 +39,12 @@ namespace MoviesAPI_EFCore7.Controllers
             _dbContext.AddRange(generos);
             await _dbContext.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Genero>>> Get()
+        {
+            return await _dbContext.Generos.ToListAsync();
         }
     }
 }
