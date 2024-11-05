@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoviesAPI_EFCore7.Data;
 using MoviesAPI_EFCore7.DTO_s;
 using MoviesAPI_EFCore7.Entities;
@@ -26,6 +27,12 @@ namespace MoviesAPI_EFCore7.Controllers
             _dbContext.Add(nuevoActor);
             await _dbContext.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Actor>>> Get()
+        {
+            return await _dbContext.Actores.ToListAsync();
         }
     }
 }
