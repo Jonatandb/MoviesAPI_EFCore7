@@ -10,6 +10,7 @@ namespace MoviesAPI_EFCore7.Utilities
         {
             CreateMap<GeneroCreacionDTO, Genero>();
             CreateMap<ActorCreacionDTO, Actor>();
+            CreateMap<Actor, ActorDTO>();
             CreateMap<ComentarioCreacionDTO, Comentario>();
             CreateMap<PeliculaCreacionDTO, Pelicula>()
                 .ForMember(ent => ent.Generos, dto =>
