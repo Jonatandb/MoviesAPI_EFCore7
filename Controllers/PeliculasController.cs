@@ -9,7 +9,7 @@ namespace MoviesAPI_EFCore7.Controllers
 {
     [ApiController]
     [Route("api/peliculas")]
-    public class PeliculasController: ControllerBase
+    public class PeliculasController : ControllerBase
     {
         private readonly MoviesDbContext _context;
         private readonly IMapper _mapper;
@@ -25,9 +25,9 @@ namespace MoviesAPI_EFCore7.Controllers
         {
             var nuevaPelicula = _mapper.Map<Pelicula>(pelicula);
 
-            if(nuevaPelicula.Generos is not null)
+            if (nuevaPelicula.Generos is not null)
             {
-                foreach(var genero in nuevaPelicula.Generos)
+                foreach (var genero in nuevaPelicula.Generos)
                 {
                     // Aviso a EFCore que "genero" ya existe en la base de datos
                     // y no tiene que hacer nada. Esto evita que EFCore cree
@@ -36,9 +36,9 @@ namespace MoviesAPI_EFCore7.Controllers
                 }
             }
 
-            if(nuevaPelicula.PeliculasActores is not null)
+            if (nuevaPelicula.PeliculasActores is not null)
             {
-                for(int i = 0; i < nuevaPelicula.PeliculasActores.Count; i++)
+                for (int i = 0; i < nuevaPelicula.PeliculasActores.Count; i++)
                 {
                     nuevaPelicula.PeliculasActores[i].Orden = i + 1;
                 }
@@ -47,6 +47,24 @@ namespace MoviesAPI_EFCore7.Controllers
             _context.Add(nuevaPelicula);
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Pelicula>> Get(int id)
+        {
+            var pelicula = await _context.Peliculas
+                .Include(p => p.Comentarios)
+                .Include(p => p.Generos)
+                .Include(p => p.PeliculasActores.OrderBy(pa => pa.Orden))
+                    .ThenInclude(pa => pa.Actor)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (pelicula is null)
+            {
+                return NotFound();
+            }
+
+            return pelicula;
         }
     }
 }
