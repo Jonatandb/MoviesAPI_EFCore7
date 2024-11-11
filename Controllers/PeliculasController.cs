@@ -52,6 +52,7 @@ namespace MoviesAPI_EFCore7.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Pelicula>> Get(int id)
         {
+            // Eager loading:
             var pelicula = await _context.Peliculas
                 .Include(p => p.Comentarios)
                 .Include(p => p.Generos)
@@ -65,6 +66,35 @@ namespace MoviesAPI_EFCore7.Controllers
             }
 
             return pelicula;
+        }
+
+        [HttpGet("select/{id:int}")]
+        public async Task<ActionResult> GetSelect(int id)
+        {
+            // Select loading:
+            var pelicula = await _context.Peliculas
+               .Select(p => new
+                   {
+                       p.Id,
+                       p.Titulo,
+                       Generos = p.Generos.Select(g => g.Nombre).ToList(),
+                       Actores = p.PeliculasActores.OrderBy(pa => pa.Orden)
+                                    .Select(pa => new
+                                    {
+                                        Id = pa.ActorId,
+                                        pa.Actor.Nombre,
+                                        pa.Personaje
+                                    }),
+                       CantidadComentarios = p.Comentarios.Count()
+                   })
+               .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (pelicula is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(pelicula);
         }
     }
 }
