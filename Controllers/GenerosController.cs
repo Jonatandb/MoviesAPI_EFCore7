@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using MoviesAPI_EFCore7.Entities;
 using Microsoft.EntityFrameworkCore;
-using MoviesAPI_EFCore7.Data;
 using MoviesAPI_EFCore7.DTO_s;
+using MoviesAPI_EFCore7.Data;
+
 
 namespace MoviesAPI_EFCore7.Controllers
 {
@@ -61,6 +62,22 @@ namespace MoviesAPI_EFCore7.Controllers
 
             genero.Nombre = genero.Nombre + "2";
             
+            await _dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, GeneroCreacionDTO generoToUpdate)
+        {
+            // Actualización por medio del "modelo desconectado":
+
+            var genero = _mapper.Map<Genero>(generoToUpdate);
+
+            genero.Id = id;
+            
+            _dbContext.Update(genero);
+
             await _dbContext.SaveChangesAsync();
 
             return Ok();
