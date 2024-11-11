@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MoviesAPI_EFCore7.Entities;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI_EFCore7.Data;
 using MoviesAPI_EFCore7.DTO_s;
-using MoviesAPI_EFCore7.Entities;
 
 namespace MoviesAPI_EFCore7.Controllers
 {
@@ -45,6 +45,25 @@ namespace MoviesAPI_EFCore7.Controllers
         public async Task<ActionResult<IEnumerable<Genero>>> Get()
         {
             return await _dbContext.Generos.ToListAsync();
+        }
+
+        [HttpPut("{id:int}/nombre2")]
+        public async Task<ActionResult> Put(int id)
+        {
+            // Actualización por medio del "modelo conectado":
+
+            var genero = await _dbContext.Generos.FirstOrDefaultAsync(g => g.Id == id);
+            
+            if(genero is null)
+            {
+                return NotFound();
+            }
+
+            genero.Nombre = genero.Nombre + "2";
+            
+            await _dbContext.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
