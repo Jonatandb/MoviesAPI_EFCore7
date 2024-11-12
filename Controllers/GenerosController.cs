@@ -54,14 +54,14 @@ namespace MoviesAPI_EFCore7.Controllers
             // Actualización por medio del "modelo conectado":
 
             var genero = await _dbContext.Generos.FirstOrDefaultAsync(g => g.Id == id);
-            
-            if(genero is null)
+
+            if (genero is null)
             {
                 return NotFound();
             }
 
             genero.Nombre = genero.Nombre + "2";
-            
+
             await _dbContext.SaveChangesAsync();
 
             return Ok();
@@ -75,12 +75,40 @@ namespace MoviesAPI_EFCore7.Controllers
             var genero = _mapper.Map<Genero>(generoToUpdate);
 
             genero.Id = id;
-            
+
             _dbContext.Update(genero);
 
             await _dbContext.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteModernoRecomendado(int id)
+        {
+            var filasAfectadas = await _dbContext.Generos.Where(g => g.Id == id).ExecuteDeleteAsync();
+
+            if (filasAfectadas == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}/anterior")]
+        public async Task<ActionResult> DeleteAnterior(int id)
+        {
+            var genero = await _dbContext.Generos.FirstOrDefaultAsync(g => g.Id == id);
+
+            if (genero is null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Remove(genero);
+            await _dbContext.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
