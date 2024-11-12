@@ -96,5 +96,18 @@ namespace MoviesAPI_EFCore7.Controllers
 
             return Ok(pelicula);
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteModernoRecomendado(int id)
+        {
+            var filasAfectadas = await _context.Peliculas.Where(g => g.Id == id).ExecuteDeleteAsync();
+
+            if (filasAfectadas == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }
