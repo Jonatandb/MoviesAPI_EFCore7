@@ -24,6 +24,13 @@ namespace MoviesAPI_EFCore7.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(GeneroCreacionDTO genero)
         {
+            var GeneroExistente = await _dbContext.Generos.AnyAsync(g => g.Nombre == genero.Nombre);
+
+            if(GeneroExistente)
+            {
+                return BadRequest("El genero " + genero.Nombre + " ya existe!");
+            }
+
             var nuevoGenero = _mapper.Map<Genero>(genero);
 
             _dbContext.Add(nuevoGenero);

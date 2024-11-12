@@ -11,6 +11,8 @@ namespace MoviesAPI_EFCore7.Entities.Configurations
             var anime= new Genero { Id = 5, Nombre = "Anime" };
 
             builder.HasData(cienciaFiccion, anime);
+
+            builder.HasIndex(g => g.Nombre).IsUnique();
         }
     }
 }
